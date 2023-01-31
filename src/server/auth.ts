@@ -53,20 +53,19 @@ export const authOptions: NextAuthOptions = {
     }),
     
     /**
-     * ...add more providers here
-     *
-     * Most other providers require a bit more work than the Discord provider.
-     * For example, the GitHub provider requires you to add the
-     * `refresh_token_expires_in` field to the Account model. Refer to the
-     * NextAuth.js docs for the provider you want to use. Example:
      * @see https://next-auth.js.org/providers/github
      **/
   ],
+  theme:{
+    logo: '/logo.svg',
+    brandColor:'#FC4747',
+    colorScheme: 'dark',
+    buttonText:'#FC4747',
+
+  }
 };
 
 /**
- * Wrapper for getServerSession so that you don't need
- * to import the authOptions in every file.
  * @see https://next-auth.js.org/configuration/nextjs
  **/
 export const getServerAuthSession = (ctx: {
