@@ -14,5 +14,14 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  redirects: async () => {
+    return [
+      {
+        source: "/signout",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  }
 };
 export default config;
