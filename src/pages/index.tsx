@@ -53,7 +53,7 @@ const Home: NextPageWithLayout = () => {
         </p>
         <Link
           href="/code"
-          className="inline-flex md:w-1/4 items-center rounded-sm border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70"
+          className="inline-flex justify-center md:w-1/4 items-center rounded-md border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70"
         >
           See the Code
         </Link>
@@ -63,7 +63,7 @@ const Home: NextPageWithLayout = () => {
         </p>
         <Link
           href="/signin"
-          className="inline-flex md:w-1/4 items-center rounded-sm border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70"
+          className="inline-flex justify-center md:w-1/4 items-center rounded-md border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70"
         >
           Login Page
         </Link>
