@@ -33,7 +33,7 @@ function MobileLink({text,destination}:ILinkProps){
     <Menu.Item>
       {({ active }) => (
         <Link
-          href={destination=""}
+          href={destination}
           className={`${
             active ? "bg-grayish-blue text-white" : "text-white bg-dark-blue"
           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -46,7 +46,7 @@ function MobileLink({text,destination}:ILinkProps){
 }
 export function LandingNav() {
   return (
-    <nav className="bg-tertiary-black py-4 px-4 md:px-0">
+    <nav className="bg-tertiary-black py-4 px-4 md:px-0 mb-8">
       <div className="container mx-auto flex items-center justify-between gap-3 sm:px-6 lg:flex lg:px-8">
         <Link href="/">
           <Logo classes="w-5"/>
