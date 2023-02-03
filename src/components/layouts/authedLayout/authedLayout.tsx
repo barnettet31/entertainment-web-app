@@ -14,7 +14,7 @@ const AuthedLayout = ({ children }: IProps) => {
     useEffect(() => {
       if (!sessionData) router.push("/").catch(console.log);
     }, [sessionData]);
-  return <div className="lg:flex"><AuthHeader/>{children}</div>;
+  return <div className="lg:flex"><AuthHeader/><main className="flex flex-col gap-4 h-screen pt-8">{children}</main></div>;
 };
 export const getAuthedLayout = (page: ReactElement) => {
   return <AuthedLayout>{page}</AuthedLayout>;
