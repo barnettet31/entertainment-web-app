@@ -25,7 +25,7 @@ const navLinkContent = [
 ];
 
 export const AuthNavigation = () => (
-  <nav className="flex justify-center gap-6">
+  <nav className="flex justify-center gap-6 lg:flex-col lg:gap-10">
     {navLinkContent.map(({ location, alt, image }) => (
       <AuthNavLink key={uuid()} location={location} alt={alt} image={image} />
     ))}
