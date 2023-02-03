@@ -13,8 +13,8 @@ const AuthedLayout = ({ children }: IProps) => {
 
     useEffect(() => {
       if (!sessionData) router.push("/").catch(console.log);
-    }, [sessionData]);
-  return <div className="lg:flex"><AuthHeader/><main className="flex flex-col gap-4 h-screen pt-8">{children}</main></div>;
+    }, []);
+  return <div className="lg:flex"><AuthHeader/><main className="flex flex-col gap-4 h-screen pt-8 px-4 md:px-0 md:w-11/12 lg:w-full mx-auto">{children}</main></div>;
 };
 export const getAuthedLayout = (page: ReactElement) => {
   return <AuthedLayout>{page}</AuthedLayout>;
