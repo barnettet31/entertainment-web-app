@@ -14,6 +14,16 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
+        port: "",
+        pathname: "/avatars/**",
+      },
+    ],
+  },
   redirects: async () => {
     return [
       {
@@ -22,6 +32,6 @@ const config = {
         permanent: true,
       },
     ];
-  }
+  },
 };
 export default config;
