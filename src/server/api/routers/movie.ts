@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-import { Movie } from "@prisma/client";
 import { createTRPCRouter,  protectedProcedure } from "../trpc";
 
 export const movieRouter = createTRPCRouter({
