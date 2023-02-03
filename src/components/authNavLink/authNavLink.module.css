@@ -1,0 +1,6 @@
+.navLink{
+    transition:ease-in-out;
+}
+.navLink:hover{
+   filter: invert(61%) sepia(87%) saturate(6242%) hue-rotate(338deg) brightness(106%) contrast(97%);
+}
