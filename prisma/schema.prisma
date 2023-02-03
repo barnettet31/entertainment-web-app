@@ -13,15 +13,7 @@ datasource db {
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
 }
-model Bookmark {
-    id         String   @id @default(cuid())
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    movieTitle String
-    movieId    String
-    user       User     @relation(fields: [userId], references: [id])
-    userId     String
-}
+
 
 model Movie {
     id          String    @id @default(cuid())
@@ -33,7 +25,15 @@ model Movie {
     reviews     Review[]
     thumbnails  String[]
 }
-
+model Bookmark {
+    id         String   @id @default(cuid())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    movieTitle String
+    movieId    String
+    user       User     @relation(fields: [userId], references: [id])
+    userId     String
+}
 model Review {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())

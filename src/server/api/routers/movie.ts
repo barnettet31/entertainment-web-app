@@ -1,35 +1,32 @@
-import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { Movie } from "@prisma/client";
+import { createTRPCRouter,  protectedProcedure } from "../trpc";
 
 export const movieRouter = createTRPCRouter({
-    postMessage: publicProcedure
-        .input(
-            z.object({
-                title: z.string(),
-                thumbnail: z.array(z.string()),
-                year: z.number(),
-                category: z.string(),
-                rating: z.string(),
-                isTrending: z.boolean(),
-            })
-        )
-        .mutation(async ({ ctx, input }) =>
-        {
-            try
-            {
-                await ctx.prisma.movie.create({
-                    data: {
-                        title: input.title,
-                        thumbnails: input.thumbnail,
-                        year: input.year,
-                        category: input.category,
-                        rating: input.rating,
-                        isTrending: input.isTrending,
-                    },
-                })
-            } catch (error)
-            {
-                console.log(error);
-            }
-        }),
+  getTrendingMovies: protectedProcedure.query(async ({ ctx }) => {
+    try {
+        const myData = await ctx.prisma.movie.findMany({
+          where:{
+            isTrending:true
+          }
+        });
+      return myData;
+    } catch (error) {
+      console.log("error", error);
+    }
+  }),
+  getNonTrendingMovies: protectedProcedure.query(async({ctx})=>{
+    try
+    {
+      const myData = await ctx.prisma.movie.findMany({
+        where: {
+          isTrending: false
+        }
+      });
+      return myData;
+    } catch (error)
+    {
+      console.log("error", error);
+    }
+  })
 });
