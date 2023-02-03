@@ -11,7 +11,7 @@ export const ProfileButton = () => {
       as="div"
       className="relative flex items-center justify-end lg:absolute lg:bottom-9"
     >
-      <Menu.Button className="h-6 w-6 overflow-hidden rounded-full border border-white lg:h-10 lg:w-10">
+      <Menu.Button className="h-6 w-6 overflow-hidden rounded-full border border-white hover:border-red ease-in-out lg:h-10 lg:w-10">
         {userProfile?.image ? (
           <Image src={userProfile.image} alt="profile" width="50" height="50" />
         ) : (
