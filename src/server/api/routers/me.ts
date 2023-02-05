@@ -60,6 +60,8 @@ export const meRouter = createTRPCRouter({
                     movieTitle: input.title,
                 }
             });
+            const alreadyBookmarked = myData ? myData.bookmarks.some((item) => item.movieId === input.movieId) : false;
+            if (alreadyBookmarked) return;
             const updatedBookMarks = myData ? [...myData.bookmarks, newBookMark] : [newBookMark];
             const data = await ctx.prisma.user.update({
                 where: {
