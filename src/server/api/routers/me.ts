@@ -34,15 +34,14 @@ export const meRouter = createTRPCRouter({
 
                 }
             });
-
-            const isBookmarked = myData ? myData.bookmarks.some((item) => item.id === input.id) :false;
+            const isBookmarked = myData ? myData.bookmarks.some((item) => item.movieId === input.id) :false;
             return isBookmarked;
         } catch (error)
         {
             console.log("error", error);
         }
     }), 
-    setNewBookMark: protectedProcedure.input(z.object({ id: z.string(), title:z.string() })).mutation(async ({ ctx, input }) =>{
+    setNewBookMark: protectedProcedure.input(z.object({ movieId: z.string(), title:z.string() })).mutation(async ({ ctx, input }) =>{
         try
         {
             const myData = await ctx.prisma.user.findUnique({
@@ -56,13 +55,13 @@ export const meRouter = createTRPCRouter({
             });
             const newBookMark = await ctx.prisma.bookmark.create({
                 data: {
-                    movieId: input.id,
+                    movieId: input.movieId,
                     userId: ctx.session.user.id,
                     movieTitle: input.title,
                 }
             });
             const updatedBookMarks = myData ? [...myData.bookmarks, newBookMark] : [newBookMark];
-            await ctx.prisma.user.update({
+            const data = await ctx.prisma.user.update({
                 where: {
                     id: ctx.session.user.id
                 },
@@ -71,7 +70,8 @@ export const meRouter = createTRPCRouter({
                         set: updatedBookMarks
                     }
                 }
-            })
+            }); 
+            console.log(data);
 
 
         } catch (error)
@@ -79,12 +79,23 @@ export const meRouter = createTRPCRouter({
             console.log("error", error);
         }
     }),
-    removeBookMark: protectedProcedure.input(z.object({ id: z.string() })).mutation(async ({ ctx, input }) =>{
+    removeBookMark: protectedProcedure.input(z.object({ movieId: z.string() })).mutation(async ({ ctx, input }) =>{
         try{
             const user = await ctx.prisma.user.findUnique({
                 where:{id:ctx.session.user.id
-                }});
-            const updatedBookMarks = user ? user.bookmarks.filter((item) => item.movieId !== input.id) : [];
+                }, 
+                select:{
+                    bookmarks:true
+                }
+            });
+            const bookMarkToDelete = user?.bookmarks.find((item) => item.movieId === input.movieId);
+            const updatedBookMarks = user ? user.bookmarks.filter((item) => item.movieId !== input.movieId) : [];
+
+            const deletedBookMark = await ctx.prisma.bookmark.delete({
+                where:{
+                    id:bookMarkToDelete?.id
+                }
+            });
             await ctx.prisma.user.update({
                 where: {
                     id: ctx.session.user.id
