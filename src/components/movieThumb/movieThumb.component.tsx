@@ -1,5 +1,7 @@
 import { api } from "../../utils/api";
 import Image from "next/image";
+import { BookMarkedImage } from "../bookMarkElement/bookMarked.component";
+import Link from "next/link";
 interface IMovieThumbProps {
   title: string;
   year: number;
@@ -31,14 +33,16 @@ export const MovieThumb = ({
           width="300"
           height="0"
         />
-       
-        <div className="flex justify-between gap-2 text-sm font-light opacity-75">
-          <span>{year}</span>
+        <BookMarkedImage id={id} title={title} />
+        <div className="flex justify-start gap-2 text-sm font-light opacity-75">
+          <span className="after:ml-0.5 after:content-[•]">{year}</span>
           <span>{category}</span>
           <span>{rating}</span>
         </div>
         <div className="flex items-center justify-between">
-          <h2>{title}</h2>
+          <Link href={`/dashboard/content/${id}`}>
+            <h2>{title}</h2>
+          </Link>
           <div className="flex items-center gap-1">
             {isLoading ? (
               <div className="pulse h-2 w-4 rounded" />
