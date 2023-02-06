@@ -17,11 +17,6 @@ const navLinkContent = [
     alt: "Bookmarks",
     image: "/icon-nav-bookmark.svg",
   },
-  {
-    location: "/dashboard/reviewed",
-    alt: "Favorites",
-    image: "/icon-nav-favorite.svg",
-  },
 ];
 
 export const AuthNavigation = () => (
