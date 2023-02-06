@@ -1,38 +1,38 @@
 import Image from "next/image";
 import { api } from "../../utils/api";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 interface IBookMarkedImageProps {
   id: string;
-  title:string;
+  title: string;
 }
 export const BookMarkedImage = ({ id, title }: IBookMarkedImageProps) => {
-  const { data  } = api.me.isBookMarked.useQuery({ id });
-  const [isBookMarked, setIsBookMarked] = useState<boolean>(data ? data:false);
+  const utils = api.useContext()
+  const { data } = api.me.isBookMarked.useQuery({ id });
+  const [isBookMarked, setIsBookMarked] = useState<boolean | undefined>(data);
 
   const { mutate: deleteBookMark } = api.me.removeBookMark.useMutation({
     onError: () => setIsBookMarked(!isBookMarked),
+    onSettled: async () => {
+      await utils.me.isBookMarked.invalidate();
+    },
   });
   const { mutate: setBookMark } = api.me.setNewBookMark.useMutation({
     onError: () => setIsBookMarked(!isBookMarked),
-  });
-  useEffect(()=>{
-    function checkBookmark  (){
-
-      if(data) return setIsBookMarked(data)
+    onSettled:async ()=>{
+      await utils.me.isBookMarked.invalidate()
     }
-    checkBookmark()
-  },[data])
+  });
+  const handleBookMarkClick = () => {
+      isBookMarked
+        ? deleteBookMark({ movieId: id })
+        : setBookMark({ movieId: id, title: title });
+        setIsBookMarked(!isBookMarked);
+    };
+
+
   return (
     <div className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-black/75">
-      <div
-        onClick={() => {
-          isBookMarked
-            ? deleteBookMark({ movieId: id })
-            : setBookMark({ movieId: id, title: title });
-            setIsBookMarked(!isBookMarked);
-        }}
-        className="relative cursor-pointer"
-      >
+      <div onClick={handleBookMarkClick} className="relative cursor-pointer">
         {isBookMarked ? (
           <Image
             className="z-10 h-3 w-3"

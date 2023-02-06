@@ -2,6 +2,7 @@ import { api } from "../../utils/api";
 import Image from "next/image";
 import { BookMarkedImage } from "../bookMarkElement/bookMarked.component";
 import Link from "next/link";
+import { LoadingMovieThumb } from "../loadingMovieThumb/loadingMovieThumb.component";
 interface IMovieThumbProps {
   title: string;
   year: number;
@@ -18,11 +19,14 @@ export const MovieThumb = ({
   category,
   id,
 }: IMovieThumbProps) => {
-  const { data: averageReview, isLoading } =
+  const { data: averageReview, isLoading:favoriteLoading } =
     api.reviews.getAverageReviews.useQuery({
       movieId: id,
     });
+    const {isLoading:bookmarkLoading} = api.me.isBookMarked.useQuery({id});
 
+
+  if(favoriteLoading || bookmarkLoading ) return <LoadingMovieThumb/>
   return (
     <div className="flex flex-col gap-2">
       <div className="relative flex flex-col gap-2">
@@ -35,7 +39,7 @@ export const MovieThumb = ({
         />
         <BookMarkedImage id={id} title={title} />
         <div className="flex justify-start gap-2 text-sm font-light opacity-75">
-          <span className="after:ml-0.5 after:content-[•]">{year}</span>
+          <span className="after:ml-0.5 after:content-['•']">{year}</span>
           <span>{category}</span>
           <span>{rating}</span>
         </div>
@@ -44,20 +48,16 @@ export const MovieThumb = ({
             <h2>{title}</h2>
           </Link>
           <div className="flex items-center gap-1">
-            {isLoading ? (
-              <div className="pulse h-2 w-4 rounded" />
-            ) : (
-              <>
-                <Image
-                  src="/icon-nav-favorite.svg"
-                  width="15"
-                  height="15"
-                  className="brightness-200"
-                  alt=""
-                />
-                <span className="text-xs font-light">{averageReview}</span>
-              </>
-            )}
+            <>
+              <Image
+                src="/icon-nav-favorite.svg"
+                width="15"
+                height="15"
+                className="brightness-200"
+                alt=""
+              />
+              <span className="text-xs font-light">{averageReview}</span>
+            </>
           </div>
         </div>
       </div>

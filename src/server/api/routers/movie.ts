@@ -56,5 +56,41 @@ export const movieRouter = createTRPCRouter({
     {
       console.log("error", error);
     }
+  }),
+  getBookMarked: protectedProcedure.query(async ({ ctx }) =>{
+    try
+    {
+      const myData = await ctx.prisma.user.findUnique({
+        where: {
+          id: ctx.session.user.id
+        },
+        select: {
+          bookmarks: true
+
+        }
+      });
+      const bookMarkedMovieIds = myData ? myData.bookmarks.map((item) => item.movieId) : [];
+      const bookMarkedMovies = await ctx.prisma.movie.findMany({
+        where: {
+          id: {
+            in: bookMarkedMovieIds
+          }
+        }
+      });
+      return bookMarkedMovieIds;
+    } catch (error)
+    {
+      console.log("error", error);
+    }
+  }),
+  getAllMovies: protectedProcedure.query(async ({ ctx }) =>{
+    try
+    {
+      const myData = await ctx.prisma.movie.findMany();
+      return myData;
+    } catch (error)
+    {
+      console.log("error", error);
+    }
   })
 });
