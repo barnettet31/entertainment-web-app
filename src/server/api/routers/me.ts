@@ -111,5 +111,31 @@ export const meRouter = createTRPCRouter({
         }catch(e){
             console.log("error", e);
         }
+    }),
+    getBookMarkedMovies: protectedProcedure.query(async ({ ctx }) =>{
+        try
+        {
+            const myData = await ctx.prisma.user.findUnique({
+                where: {
+                    id: ctx.session.user.id
+                },
+                select: {
+                    bookmarks: true
+
+                }
+            });
+            const bookMarkedMovieIds = myData ? myData.bookmarks.map((item) => item.movieId) : [];
+            const bookMarkedMovies = await ctx.prisma.movie.findMany({
+                where: {
+                    id: {
+                        in: bookMarkedMovieIds
+                    }
+                }
+            });
+            return bookMarkedMovies;
+        } catch (error)
+        {
+            console.log("error", error);
+        }
     })
 });
