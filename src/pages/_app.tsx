@@ -27,6 +27,7 @@ function MyApp({
   return (
     <SessionProvider session={pageProps.session}>
       <Head>
+        <title>Front End Mentor - Entertainment App</title>
         <link rel="shortcut icon" href="/favicon-32x32.png"/>
       </Head>
       {getLayout(<Component {...pageProps} />)}
