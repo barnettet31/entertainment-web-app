@@ -14,12 +14,14 @@ export const BookMarkedImage = ({ id, title }: IBookMarkedImageProps) => {
     onError: () => setIsBookMarked(!isBookMarked),
     onSettled: async () => {
       await utils.me.isBookMarked.invalidate();
+      await utils.me.getBookMarkedMovies.invalidate();
     },
   });
   const { mutate: setBookMark } = api.me.setNewBookMark.useMutation({
     onError: () => setIsBookMarked(!isBookMarked),
     onSettled:async ()=>{
       await utils.me.isBookMarked.invalidate()
+      await utils.me.getBookMarkedMovies.invalidate()
     }
   });
   const handleBookMarkClick = () => {
