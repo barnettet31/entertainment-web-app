@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { createTRPCRouter,  protectedProcedure } from "../trpc";
 
 export const movieRouter = createTRPCRouter({
@@ -88,6 +89,29 @@ export const movieRouter = createTRPCRouter({
     {
       const myData = await ctx.prisma.movie.findMany();
       return myData;
+    } catch (error)
+    {
+      console.log("error", error);
+    }
+  }),
+  getContentById: protectedProcedure.input(
+    z.object({id:z.string()})
+  ).query(async ({ ctx, input }) =>{
+    try
+    {
+      const myData = await ctx.prisma.movie.findUnique({
+        where: {
+          id: input.id
+        }
+      });
+      const myReviews = await ctx.prisma.review.findMany({
+        where: {
+          movieId: input.id
+        }
+      });
+      const myAverage = myReviews.reduce((a, b) => a + b.rating, 0) / myReviews.length;
+      const myDataWithAverage = {...myData, averageRating: isNaN(myAverage) ? 0 : myAverage, reviews: myReviews};
+      return myDataWithAverage;
     } catch (error)
     {
       console.log("error", error);
