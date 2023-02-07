@@ -33,7 +33,7 @@ export const BookMarkedImage = ({ id, title }: IBookMarkedImageProps) => {
 
 
   return (
-    <div className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-black/75">
+    <div className="absolute z-10 top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-black/75">
       <div onClick={handleBookMarkClick} className="relative cursor-pointer">
         {isBookMarked ? (
           <Image
