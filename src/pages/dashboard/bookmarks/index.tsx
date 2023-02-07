@@ -1,7 +1,7 @@
 import uuid from "react-uuid";
 import { getAuthedLayout } from "../../../components/layouts/authedLayout/authedLayout";
 import { LoadingMovieThumb } from "../../../components/loadingMovieThumb/loadingMovieThumb.component";
-import { ContentList } from "../../../contentList/contentList.component";
+import { ContentList } from "../../../components/contentList/contentList.component";
 import { api } from "../../../utils/api";
 import type { NextPageWithLayout } from "../../_app";
 import { LoadingGrid } from "../../../components/loadingGrid/loadingGrid.component";

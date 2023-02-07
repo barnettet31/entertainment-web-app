@@ -1,6 +1,6 @@
 import { getAuthedLayout } from "../../components/layouts/authedLayout/authedLayout";
 import { LoadingGrid } from "../../components/loadingGrid/loadingGrid.component";
-import { ContentList } from "../../contentList/contentList.component";
+import { ContentList } from "../../components/contentList/contentList.component";
 import { api } from "../../utils/api";
 import type { NextPageWithLayout } from "../_app";
 const Dashboard: NextPageWithLayout = () => {

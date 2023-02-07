@@ -1,5 +1,5 @@
 import type { Movie } from "@prisma/client";
-import { MovieThumb } from "../components/movieThumb/movieThumb.component";
+import { MovieThumb } from "../movieThumb/movieThumb.component";
 import uuid from "react-uuid";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -19,7 +19,8 @@ console.log(router)
   useEffect(() => {
     const setMyFilteredContent = setTimeout(() => {
       if (!data) return;
-      if(filterString.length ===0) return setFilteredData(null);
+      if(filterString.length === 0 && filteredData) return setFilteredData(null);
+      if(filterString.length === 0) return;  
       setFilteredData(
         data.filter((el) =>
           el.title.toLowerCase().includes(filterString.toLowerCase())
