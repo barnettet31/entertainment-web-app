@@ -3,6 +3,8 @@ import type {ReactElement} from 'react';
 import {  AuthHeader } from "../../authHeader/authHeader.component";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { ErrorBoundary } from "../../errorBoundary/errorBoundary.component";
+import { ErrorPage } from "../../errorPage/errorPage.component";
 
 interface IProps {
   children: ReactElement;
@@ -17,5 +19,9 @@ const AuthedLayout = ({ children }: IProps) => {
   return <div className="lg:flex font-outfit"><AuthHeader/><main className="flex flex-col gap-4 h-screen pt-8 px-4 md:px-0 md:w-11/12 lg:w-full mx-auto">{children}</main></div>;
 };
 export const getAuthedLayout = (page: ReactElement) => {
-  return <AuthedLayout>{page}</AuthedLayout>;
+  return (
+    <AuthedLayout>
+      <ErrorBoundary errorElement={<ErrorPage/>}>{page}</ErrorBoundary>
+    </AuthedLayout>
+  );
 };
