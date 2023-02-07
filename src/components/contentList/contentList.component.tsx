@@ -4,13 +4,13 @@ import uuid from "react-uuid";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { FeaturedMoviesList } from "../featuredMovies/featuredMovies.component";
 interface IContentListProps {
   data: Movie[] | undefined;
   title: string;
 }
 export const ContentList = ({ data, title }: IContentListProps) => {
 const router = useRouter();
-console.log(router)
   const [filterString, setFilterString] = useState<string>("");
   const [filteredData, setFilteredData] = useState<Movie[]|null>();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +54,7 @@ console.log(router)
           className="w-full bg-transparent py-3 caret-red outline-none focus:border-b focus:border-b-grayish-blue"
         />
       </div>
+      {router.pathname === '/dashboard'? <FeaturedMoviesList/>:null}
       <h1 className="self-start text-3xl font-light">{filteredData? `Found ${filteredData.length} results for '${filterString}'`:title}</h1>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {filteredData
