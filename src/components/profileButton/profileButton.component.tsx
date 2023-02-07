@@ -27,7 +27,7 @@ export const ProfileButton = () => {
         leaveTo="transform opacity-0 scale-95"
         as={Fragment}
       >
-        <Menu.Items className="absolute right-0 top-5 lg:left-10 mt-2 w-24 origin-top-right divide-y divide-gray-100 rounded-lg bg-grayish-blue text-center  shadow-lg focus:outline-none">
+        <Menu.Items className="absolute z-10 right-0 top-5 lg:left-10 mt-2 w-24 origin-top-right divide-y divide-gray-100 rounded-lg bg-grayish-blue text-center  shadow-lg focus:outline-none">
           <div className="px-1 py-1">
             <Menu.Item>
               {({ active }) => (
