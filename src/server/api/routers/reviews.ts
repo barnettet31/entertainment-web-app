@@ -18,7 +18,7 @@ export const reviewRouters = createTRPCRouter({
             });
             const myAverage = myData.reduce((a, b) => a + b.rating, 0) / myData.length;
             
-            return isNaN(myAverage) ? 1.0 : Math.floor(myAverage);
+            return isNaN(myAverage) ? 0 : Math.floor(myAverage);
         } catch (error)
         {
             console.log("error", error);
