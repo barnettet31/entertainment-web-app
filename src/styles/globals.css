@@ -6,3 +6,20 @@
 body{
     @apply bg-[#10141E] text-white
 }
+
+@layer utilities{
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+    .scrollbar{
+    scroll-padding-top: 1em;
+     scrollbar-color: #eeeeee25 #10141E;
+     scroll-behavior: smooth;
+    }
+}
