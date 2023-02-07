@@ -45,7 +45,7 @@ export const MovieThumb = ({
         </div>
         <div className="flex items-center justify-between">
           <Link href={`/dashboard/content/${id}`}>
-            <h2>{title}</h2>
+            <h2 className="hover:text-red text-sm md:text-lg">{title}</h2>
           </Link>
           <div className="flex items-center gap-1">
             <>
