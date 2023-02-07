@@ -4,7 +4,9 @@ import type { NextPageWithLayout } from "../../_app";
 import { ContentList } from "../../../components/contentList/contentList.component";
 import { LoadingGrid } from "../../../components/loadingGrid/loadingGrid.component";
 const Movies: NextPageWithLayout = () => {
-  const { data, isLoading, isFetching } = api.movies.getMovies.useQuery();
+  const { data, isLoading, isFetching } = api.movies.getMovies.useQuery(undefined, {
+    refetchOnWindowFocus:false,
+  });
   if (isLoading || isFetching) return <LoadingGrid />;
   return <ContentList title="Movies" data={data} />;
 };
