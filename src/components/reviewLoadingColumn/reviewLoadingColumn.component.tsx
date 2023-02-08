@@ -1,1 +1,3 @@
-export const ReviewLoadingColumn = ()=><h1>Loading....</h1>
+export const ReviewLoadingColumn = () => (
+  <div className="mt-4 animated-pulse h-40 w-full rounded bg-grayish-blue shadow-lg"></div>
+);
