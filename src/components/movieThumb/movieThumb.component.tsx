@@ -19,14 +19,10 @@ export const MovieThumb = ({
   category,
   id,
 }: IMovieThumbProps) => {
-  const { data: averageReview, isLoading:favoriteLoading } =
+  const { data: averageReview } =
     api.reviews.getAverageReviews.useQuery({
       movieId: id,
     });
-    const {isLoading:bookmarkLoading} = api.me.isBookMarked.useQuery({id});
-
-
-  if(favoriteLoading || bookmarkLoading ) return <LoadingMovieThumb/>
   return (
     <div className="flex flex-col gap-2">
       <div className="relative flex flex-col gap-2">

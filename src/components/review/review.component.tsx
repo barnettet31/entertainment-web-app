@@ -35,7 +35,7 @@ export const ReviewArticle = ({
       refetchOnWindowFocus: false,
     }
   );
-  const { mutate: deleteReview, isLoading: currentlyDeleting } =
+  const { mutate: deleteReview } =
     api.reviews.deleteReview.useMutation({
       onSuccess: () => {
         void utils.reviews.getLatestReviews.invalidate();
@@ -44,10 +44,6 @@ export const ReviewArticle = ({
         });
       },
     });
-  const {  isLoading: updatingReview } = api.reviews.updateReview.useMutation();
-  if (currentlyDeleting || updatingReview) return (
-    <div className="animated-pulse h-40 w-full rounded bg-grayish-blue shadow-lg"></div>
-  );
   return (
     <article className="relative mt-4 flex flex-col justify-start rounded-lg bg-semi-dark-blue p-4 shadow-lg md:flex-row md:gap-8">
       <div>
