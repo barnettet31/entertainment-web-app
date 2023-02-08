@@ -10,14 +10,13 @@ export const reviewRouters = createTRPCRouter({
         {
             const myData = await ctx.prisma.review.findMany({
                 where: {
-                    id: input.movieId
+                    movieId: input.movieId
                 },
-                select:{
+                select: {
                     rating: true,
                 }
             });
             const myAverage = myData.reduce((a, b) => a + b.rating, 0) / myData.length;
-            
             return isNaN(myAverage) ? 0 : Math.floor(myAverage);
         } catch (error)
         {
@@ -29,19 +28,20 @@ export const reviewRouters = createTRPCRouter({
         rating: z.number(),
         comment: z.string(),
 
-    })).mutation(async ({ ctx, input }) =>{
+    })).mutation(async ({ ctx, input }) =>
+    {
         try
         {
-                const myData = await ctx.prisma.review.create({
-                    data: {
-                        movieId: input.movieId,
-                        rating: input.rating,
-                        comment: input.comment,
-                        userId: ctx.session.user.id,
-                    }
-                });
-            
-           
+            const myData = await ctx.prisma.review.create({
+                data: {
+                    movieId: input.movieId,
+                    rating: input.rating,
+                    comment: input.comment,
+                    userId: ctx.session.user.id,
+                }
+            });
+
+
             return myData;
         } catch (error)
         {
@@ -52,9 +52,11 @@ export const reviewRouters = createTRPCRouter({
         id: z.string(),
         rating: z.number(),
         comment: z.string(),
-        
-    })).mutation(async ({ ctx, input }) => {
-        try{
+
+    })).mutation(async ({ ctx, input }) =>
+    {
+        try
+        {
             const myData = await ctx.prisma.review.update({
                 where: {
                     id: input.id,
@@ -65,41 +67,62 @@ export const reviewRouters = createTRPCRouter({
                 }
             });
             return myData;
-        }catch(e){
+        } catch (e)
+        {
             console.log("error", e);
         }
     }),
-    getLatestReviews: protectedProcedure.input(z.object({id:z.string()})).query(async ({ ctx, input }) =>{
-        try{
+    getLatestReviews: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) =>
+    {
+        try
+        {
             const reviewWithUser = await ctx.prisma.review.findFirst({
                 where: {
                     movieId: input.id,
                     userId: ctx.session.user.id,
-                  
+
                 }
             });
-            
+
             const myData = await ctx.prisma.review.findMany({
                 where: {
-                    movieId:input.id
+                    movieId: input.id
                 },
                 orderBy: {
                     createdAt: "desc"
                 },
                 take: reviewWithUser ? 9 : 10,
             });
-            const combinedReviews = myData ? [...myData ]:[];
-            if(reviewWithUser){
-                combinedReviews.push(reviewWithUser)
-              
+            const combinedReviews = myData ? [...myData] : [];
+            if (reviewWithUser)
+            {
+                combinedReviews.push(reviewWithUser);
+
             }
             const uniqueObjArray = [
                 ...new Map(combinedReviews.map((item) => [item.id, item])).values(),
             ];
-            return { reviews: [...uniqueObjArray], currentUserReviewed: myData.map((item) => item.userId).includes(ctx.session.user.id) }
+            return { reviews: [...uniqueObjArray], currentUserReviewed: myData.map((item) => item.userId).includes(ctx.session.user.id) };
 
-        }catch(e){
+        } catch (e)
+        {
             console.log("error", e);
         }
-    })
+    }),
+    deleteReview: protectedProcedure.input(z.object({ id: z.string() })).mutation(async ({ ctx, input }) =>
+    {
+        try
+        {
+            const myData = await ctx.prisma.review.delete({
+                where: {
+                    id: input.id,
+                }
+            });
+            return myData;
+
+        } catch (e)
+        {
+            console.log('error deleting review', e);
+        }
+    }),
 });
