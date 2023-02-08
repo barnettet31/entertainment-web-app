@@ -14,17 +14,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-
 model Movie {
-    id          String    @id @default(cuid())
-    title       String
-    year        Int
-    rating      String
-    isTrending  Boolean
-    category    String
-    reviews     Review[]
-    thumbnails  String[]
+    id         String   @id @default(cuid())
+    title      String
+    year       Int
+    rating     String
+    isTrending Boolean
+    category   String
+    reviews    Review[]
+    thumbnails String[]
 }
+
 model Bookmark {
     id         String   @id @default(cuid())
     createdAt  DateTime @default(now())
@@ -34,19 +34,18 @@ model Bookmark {
     user       User     @relation(fields: [userId], references: [id])
     userId     String
 }
+
 model Review {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    comment  String
+    comment   String
     rating    Int
     movie     Movie    @relation(fields: [movieId], references: [id])
     movieId   String
     user      User     @relation(fields: [userId], references: [id])
     userId    String
 }
-
-
 
 // Necessary for Next auth
 model Account {
@@ -78,6 +77,7 @@ model Session {
 model User {
     id            String     @id @default(cuid())
     name          String?
+    createdAt     DateTime   @default(now())
     email         String?    @unique
     emailVerified DateTime?
     image         String?
