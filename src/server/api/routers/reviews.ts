@@ -32,14 +32,16 @@ export const reviewRouters = createTRPCRouter({
     })).mutation(async ({ ctx, input }) =>{
         try
         {
-            const myData = await ctx.prisma.review.create({
-                data: {
-                    movieId: input.movieId,
-                    rating: input.rating,
-                    comment: input.comment,
-                    userId: ctx.session.user.id,
-                }
-            });
+                const myData = await ctx.prisma.review.create({
+                    data: {
+                        movieId: input.movieId,
+                        rating: input.rating,
+                        comment: input.comment,
+                        userId: ctx.session.user.id,
+                    }
+                });
+            
+           
             return myData;
         } catch (error)
         {
@@ -63,6 +65,32 @@ export const reviewRouters = createTRPCRouter({
                 }
             });
             return myData;
+        }catch(e){
+            console.log("error", e);
+        }
+    }),
+    getLatestReviews: protectedProcedure.input(z.object({id:z.string()})).query(async ({ ctx, input }) =>{
+        try{
+            const reviewWithUser = await ctx.prisma.review.findFirst({
+                where: {
+                    movieId: input.id,
+                    userId: ctx.session.user.id,
+                  
+                }
+            })
+            const myData = await ctx.prisma.review.findMany({
+                where: {
+                    movieId:input.id
+                },
+                orderBy: {
+                    createdAt: "desc"
+                },
+                take: reviewWithUser ? 9 : 10,
+            });
+            const combinedReviews = myData ? [...myData ]:[];
+            reviewWithUser? combinedReviews.push(reviewWithUser):null;
+
+            return {reviews: combinedReviews, currentUserReviewed: myData.map((item) => item.userId).includes(ctx.session.user.id)};
         }catch(e){
             console.log("error", e);
         }
