@@ -110,7 +110,7 @@ export const movieRouter = createTRPCRouter({
         }
       });
       const myAverage = myReviews.reduce((a, b) => a + b.rating, 0) / myReviews.length;
-      const myDataWithAverage = {...myData, averageRating: isNaN(myAverage) ? 0 : Math.floor(myAverage), reviews: myReviews};
+      const myDataWithAverage = {...myData, averageRating: isNaN(myAverage) ? 0 : Math.floor(myAverage)};
       return myDataWithAverage;
     } catch (error)
     {

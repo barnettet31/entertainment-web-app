@@ -1,0 +1,1 @@
+export const ReviewLoadingColumn = ()=><h1>Loading....</h1>
