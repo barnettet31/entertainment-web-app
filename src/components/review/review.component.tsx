@@ -95,7 +95,7 @@ export const ReviewArticle = ({
           {comment}
         </p>
       </div>
-      {currentUser ? (
+      {currentUser === user ? (
         <EditReviewOptions
           deleteReview={(id) => deleteReview({ id: id })}
           id={id}
