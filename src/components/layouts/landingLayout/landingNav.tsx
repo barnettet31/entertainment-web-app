@@ -49,6 +49,7 @@ export function LandingNav() {
     <nav className="bg-tertiary-black py-4 px-4 md:px-0 mb-8">
       <div className="container mx-auto flex items-center justify-between gap-3 sm:px-6 lg:flex lg:px-8">
         <Link href="/">
+          <span className="sr-only">Home</span>
           <Logo classes="w-5"/>
         </Link>
         <div className="hidden justify-end gap-6 self-end lg:flex">
