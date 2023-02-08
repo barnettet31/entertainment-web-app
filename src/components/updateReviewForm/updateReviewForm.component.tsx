@@ -29,24 +29,29 @@ export const UpdateReviewForm = ({
     defaultValues: { rating: rating, comment: comment },
   });
   const { mutate: postUpdate, isLoading } =
-    api.reviews.updateReview.useMutation();
+    api.reviews.updateReview.useMutation({
+      onSettled()
+      {
+        void utils.reviews.getLatestReviews.invalidate();
+        void utils.movies.getAllMovies.invalidate();
+        void utils.reviews.getAverageReviews.invalidate({movieId:movieId})
+        void utils.movies.getContentById.invalidate({
+          id: movieId,
+        });
+        handleSetIsOpen();
+      },
+    });
   const handleSetIsOpen = () => {
     setUpdating(false);
   };
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (isLoading) return;
     postUpdate({
       id,
       rating: data.rating,
       comment: data.comment,
     });
-    await utils.reviews.getLatestReviews.invalidate();
-    await utils.movies.getAllMovies.invalidate();
-    await utils.movies.getContentById.invalidate({
-      id:movieId
-    })
-    console.log(movieId)
-    handleSetIsOpen()
+    
   };
   return (
     <Dialog
