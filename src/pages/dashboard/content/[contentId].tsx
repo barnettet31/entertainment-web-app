@@ -6,9 +6,23 @@ import { ErrorPage } from "../../../components/errorPage/errorPage.component";
 import { MovieDetails } from "../../../components/movieDetails/movieDetails.component";
 import { MovieReviews } from "../../../components/movieReviews/movieReviews.component";
 const LoadingMoviePage = () => {
-  return <h2>Loading....</h2>;
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="h-5 w-40 animate-pulse rounded bg-red"></div>
+      <div className="flex flex-col items-start justify-start  gap-4 md:gap-6 lg:flex-row lg:gap-10">
+        <div className="h-[150px] w-[300px] animate-pulse rounded-md shadow md:w-auto" ></div>
+        <div className="flex flex-col gap-3">
+          <div className="w-30 h-3 animate-pulse bg-grayish-blue"></div>
+          <div className="w-30 h-3 animate-pulse bg-grayish-blue"></div>
+          <div className="w-30 h-3 animate-pulse bg-grayish-blue">
+          </div>
+          <div className="h-3 w-30 bg-grayish-blue animate-pulse">
+        </div>
+      </div>
+    </div>
+    </div>
+  );
 };
-
 
 const ContentPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -25,6 +39,9 @@ const ContentPage: NextPageWithLayout = () => {
       refetchOnWindowFocus: false,
     }
   );
+  const { data: userData } = api.me.getProfileData.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
   if (movieData === undefined || isLoading || isFetching)
     return <LoadingMoviePage />;
   return (
@@ -41,7 +58,10 @@ const ContentPage: NextPageWithLayout = () => {
               movieData.averageRating ? movieData.averageRating : 0
             }
           />
-          <MovieReviews movieId={movieData.id ?? ''}  />
+          <MovieReviews
+            currentUser={userData?.id}
+            movieId={movieData.id ?? ""}
+          />
         </>
       ) : null}
     </div>

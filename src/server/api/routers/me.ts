@@ -11,6 +11,7 @@ export const meRouter = createTRPCRouter({
                     id:ctx.session.user.id
                 },
                 select:{
+                    id:true,
                     name:true,
                     image:true,
                     createdAt:true,

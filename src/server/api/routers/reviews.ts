@@ -77,7 +77,8 @@ export const reviewRouters = createTRPCRouter({
                     userId: ctx.session.user.id,
                   
                 }
-            })
+            });
+            
             const myData = await ctx.prisma.review.findMany({
                 where: {
                     movieId:input.id
@@ -88,9 +89,15 @@ export const reviewRouters = createTRPCRouter({
                 take: reviewWithUser ? 9 : 10,
             });
             const combinedReviews = myData ? [...myData ]:[];
-            reviewWithUser? combinedReviews.push(reviewWithUser):null;
+            if(reviewWithUser){
+                combinedReviews.push(reviewWithUser)
+              
+            }
+            const uniqueObjArray = [
+                ...new Map(combinedReviews.map((item) => [item.id, item])).values(),
+            ];
+            return { reviews: [...uniqueObjArray], currentUserReviewed: myData.map((item) => item.userId).includes(ctx.session.user.id) }
 
-            return {reviews: combinedReviews, currentUserReviewed: myData.map((item) => item.userId).includes(ctx.session.user.id)};
         }catch(e){
             console.log("error", e);
         }
