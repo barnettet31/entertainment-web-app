@@ -26,7 +26,7 @@ const router = useRouter();
           el.title.toLowerCase().includes(filterString.toLowerCase())
         )
       );
-    }, 2000);
+    }, 500);
     return () => clearTimeout(setMyFilteredContent);
   }, [filterString]);
   const _returnPlaceHolderString = ()=>{
