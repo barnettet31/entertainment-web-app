@@ -38,11 +38,12 @@ export const ReviewArticle = ({
     api.reviews.deleteReview.useMutation({
       onSuccess: () => {
         void utils.reviews.getLatestReviews.invalidate();
-        void utils.movies.getContentById.invalidate();
+        void utils.reviews.getAverageReviews.invalidate({
+          movieId:movieId
+        });
       },
     });
-  const {  isLoading: updatingReview } =
-    api.reviews.updateReview.useMutation();
+  const {  isLoading: updatingReview } = api.reviews.updateReview.useMutation();
   if (currentlyDeleting || updatingReview) return (
     <div className="animated-pulse h-40 w-full rounded bg-grayish-blue shadow-lg"></div>
   );
