@@ -40,6 +40,7 @@ export const MovieReviews = ({ movieId, currentUser }: IMovieReviews) => {
               rating={review.rating}
               user={review.userId}
               comment={review.comment}
+              movieId={movieId}
             />
           ))
         ) : (
@@ -52,6 +53,7 @@ export const MovieReviews = ({ movieId, currentUser }: IMovieReviews) => {
       {reviews ? (
         reviews.map((review) => (
           <ReviewArticle
+            movieId={movieId}
             id={review.id}
             key={uuid()}
             currentUser={currentUser}
