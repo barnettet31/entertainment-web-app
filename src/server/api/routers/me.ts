@@ -13,6 +13,8 @@ export const meRouter = createTRPCRouter({
                 select:{
                     name:true,
                     image:true,
+                    createdAt:true,
+                    
 
                 }
             })
