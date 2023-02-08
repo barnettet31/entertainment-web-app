@@ -52,8 +52,9 @@ const Home: NextPageWithLayout = () => {
           Interested in the code that went into it? Check out this link:
         </p>
         <Link
-          href="/code"
-          className="inline-flex justify-center md:w-1/4 items-center rounded-md border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70"
+          href="https://github.com/barnettet31/entertainment-web-app"
+          target="_blank"
+          className="inline-flex items-center justify-center rounded-md border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70 md:w-1/4"
         >
           See the Code
         </Link>
@@ -63,7 +64,7 @@ const Home: NextPageWithLayout = () => {
         </p>
         <Link
           href="/signin"
-          className="inline-flex justify-center md:w-1/4 items-center rounded-md border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70"
+          className="inline-flex items-center justify-center rounded-md border border-transparent bg-red px-6 py-3 text-center text-lg font-medium text-white shadow-sm hover:bg-red/70 md:w-1/4"
         >
           Login Page
         </Link>
