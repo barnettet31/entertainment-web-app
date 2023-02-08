@@ -1,6 +1,5 @@
 import { api } from "../../utils/api";
 import { convertDate } from "../../utils/convertDate";
-import Image from "next/image";
 import { Star } from "../star/star.component";
 import uuid from "react-uuid";
 import { useState } from "react";
