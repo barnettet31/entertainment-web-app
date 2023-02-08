@@ -25,7 +25,7 @@ export const MovieDetails = ({
           width="300"
           alt={title ?? ""}
           height="300"
-          className="rounded-md shadow"
+          className="rounded-md shadow w-full md:w-auto"
         />
         <div className="flex flex-col gap-3">
           <p className="text-lg font-semibold">Year: {year}</p>
