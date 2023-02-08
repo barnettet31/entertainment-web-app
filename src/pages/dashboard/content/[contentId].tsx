@@ -3,25 +3,13 @@ import { getAuthedLayout } from "../../../components/layouts/authedLayout/authed
 import type { NextPageWithLayout } from "../../_app";
 import { api } from "../../../utils/api";
 import { ErrorPage } from "../../../components/errorPage/errorPage.component";
-import type { Review } from "@prisma/client";
 import { MovieDetails } from "../../../components/movieDetails/movieDetails.component";
+import { MovieReviews } from "../../../components/movieReviews/movieReviews.component";
 const LoadingMoviePage = () => {
   return <h2>Loading....</h2>;
 };
 
 
-interface IMovieReviews {
-  movieId: string | undefined;
-  reviews: Review[] | undefined;
-}
-const MovieReviews = ({ movieId, reviews }: IMovieReviews) => {
-  return (
-    <>
-      <p>{movieId}</p>
-      <p>{JSON.stringify(reviews)}</p>
-    </>
-  );
-};
 const ContentPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { contentId } = router.query;
@@ -53,7 +41,7 @@ const ContentPage: NextPageWithLayout = () => {
               movieData.averageRating ? movieData.averageRating : 0
             }
           />
-          <MovieReviews movieId={movieData.id} reviews={movieData.reviews} />
+          <MovieReviews movieId={movieData.id ?? ''}  />
         </>
       ) : null}
     </div>
