@@ -6,7 +6,7 @@ import { api } from "../../utils/api";
 import Image from "next/image";
 import { Rating } from "react-simple-star-rating";
 
-interface IFormInput {
+export interface IFormInput {
   comment: string;
   rating: number;
 }
