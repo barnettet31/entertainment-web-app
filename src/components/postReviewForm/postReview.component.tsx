@@ -13,7 +13,9 @@ export interface IFormInput {
 
 export function PostReviewForm({ movieId }: { movieId: string }) {
   const utils = api.useContext();
-  const { data: userData } = api.me.getProfileData.useQuery();
+  const { data: userData } = api.me.getProfileData.useQuery(undefined, {
+    refetchOnWindowFocus:false
+  });
   const { mutate, isLoading } = api.reviews.createReview.useMutation({
     onSuccess: () => {
       void utils.reviews.getAverageReviews.invalidate();
