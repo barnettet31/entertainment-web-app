@@ -6,6 +6,7 @@ import uuid from "react-uuid";
 import { useState } from "react";
 import { UpdateReviewForm } from "../updateReviewForm/updateReviewForm.component";
 import { EditReviewOptions } from "../editReviewOptions/editReviewOptions.component";
+import { UserProfileImage } from "../userProfileImage/userProfileImage.component";
 interface IReview {
   dateCreated: Date;
   rating: number;
@@ -55,13 +56,7 @@ export const ReviewArticle = ({
             {isLoading || isFetching ? (
               <div className="h-10 w-10 animate-pulse rounded-full bg-grayish-blue"></div>
             ) : (
-              <Image
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-                src={data?.image ?? ""}
-                alt=""
-              />
+              <UserProfileImage image={data?.image}/>
             )}
             <div className="space-y-1 font-medium dark:text-white">
               {isLoading || isFetching ? (
