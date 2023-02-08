@@ -16,10 +16,7 @@ const landingPages= [
     text: "Disclaimer",
     destination: "/disclaimer",
   },
-  {
-    text: "Code",
-    destination: "/code",
-  },
+ 
 ];
 interface ILinkProps {text:string; destination:string}
 function DesktopLink({text,destination}:ILinkProps){
