@@ -3,8 +3,8 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { api } from "../../utils/api";
-import Image from "next/image";
 import { Rating } from "react-simple-star-rating";
+import { UserProfileImage } from "../userProfileImage/userProfileImage.component";
 
 export interface IFormInput {
   comment: string;
@@ -42,13 +42,7 @@ export function PostReviewForm({ movieId }: { movieId: string }) {
     <div className="mx-auto mt-6 w-full max-w-xl px-4 py-4 shadow md:max-w-3xl lg:mx-0 lg:max-w-7xl">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <Image
-            className="inline-block h-10 w-10 rounded-full"
-            width={30}
-            height={30}
-            src={userData.image ?? ""}
-            alt="user profile"
-          />
+          <UserProfileImage image={userData.image}/>
         </div>
         <div className="min-w-0 flex-1">
           <form onSubmit={handleSubmit(onSubmit)} className="relative">
