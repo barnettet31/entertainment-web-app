@@ -11,5 +11,5 @@ export const convertDate = (date: Date | null) => {
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    return `${day}-${month}-${year}`;
+    return `${month}-${day}-${year}`;
 }
