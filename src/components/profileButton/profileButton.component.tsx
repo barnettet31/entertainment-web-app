@@ -1,8 +1,8 @@
 import { Menu, Transition } from "@headlessui/react";
 import { api } from "../../utils/api";
-import Image from "next/image";
 import { Fragment } from "react";
 import { signOut } from "next-auth/react";
+import { UserProfileImage } from "../userProfileImage/userProfileImage.component";
 export const ProfileButton = () => {
   const { data: userProfile, isLoading } = api.me.getProfileData.useQuery();
 
@@ -11,12 +11,11 @@ export const ProfileButton = () => {
       as="div"
       className="relative flex items-center justify-end lg:absolute lg:bottom-9"
     >
-      <Menu.Button className="h-6 w-6 overflow-hidden rounded-full border border-white hover:border-red ease-in-out lg:h-10 lg:w-10">
-        {userProfile?.image ? (
-          <Image src={userProfile.image} alt="profile" width="50" height="50" />
-        ) : (
+      <Menu.Button className="h-9 w-9 object-contain overflow-hidden rounded-full border border-white hover:border-red ease-in-out lg:h-10 lg:w-10">
+        {isLoading ?  (
           <div className="h-full w-full bg-grayish-blue" />
-        )}
+        ):(
+          <UserProfileImage image={userProfile?.image}/>)}
       </Menu.Button>
       <Transition
         enter="transition ease-out duration-100"
