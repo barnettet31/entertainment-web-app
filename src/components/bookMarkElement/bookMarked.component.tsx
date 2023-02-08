@@ -12,16 +12,22 @@ export const BookMarkedImage = ({ id, title }: IBookMarkedImageProps) => {
 
   const { mutate: deleteBookMark } = api.me.removeBookMark.useMutation({
     onError: () => setIsBookMarked(!isBookMarked),
-    onSettled: async () => {
+    onSuccess: async () => {
       await utils.me.isBookMarked.invalidate();
       await utils.me.getBookMarkedMovies.invalidate();
+      await utils.movies.getTrendingMovies.invalidate();
+      await utils.movies.getNonTrendingMovies.invalidate();
+      await utils.movies.getAllMovies.invalidate();
     },
   });
   const { mutate: setBookMark } = api.me.setNewBookMark.useMutation({
     onError: () => setIsBookMarked(!isBookMarked),
     onSettled:async ()=>{
-      await utils.me.isBookMarked.invalidate()
-      await utils.me.getBookMarkedMovies.invalidate()
+      await utils.me.isBookMarked.invalidate();
+      await utils.me.getBookMarkedMovies.invalidate();
+      await utils.movies.getTrendingMovies.invalidate();
+      await utils.movies.getNonTrendingMovies.invalidate();
+      await utils.movies.getAllMovies.invalidate();
     }
   });
   const handleBookMarkClick = () => {
