@@ -5,12 +5,19 @@ import type { SubmitHandler } from "react-hook-form";
 import { api } from "../../utils/api";
 import { Rating } from "react-simple-star-rating";
 import { UserProfileImage } from "../userProfileImage/userProfileImage.component";
+import { z } from "zod";
+import {zodResolver} from "@hookform/resolvers/zod"
 
 export interface IFormInput {
   comment: string;
   rating: number;
 }
-
+export const validationSchema = z.object({
+  comment:z.string().min(5, {message:"Comment must be longer than 5 letters"}),
+  rating: z.number().min(1, {message:"Rating must be at least 1"})
+  
+})
+export type ValidationSchema = z.infer<typeof validationSchema>
 export function PostReviewForm({ movieId }: { movieId: string }) {
   const utils = api.useContext();
   const { data: userData } = api.me.getProfileData.useQuery(undefined, {
@@ -23,14 +30,16 @@ export function PostReviewForm({ movieId }: { movieId: string }) {
     },
   });
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, trigger, formState:{errors}  } = useForm<ValidationSchema>({
     defaultValues: {
       comment: "",
       rating: 0,
     },
+    resolver:zodResolver(validationSchema)
   });
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     if (isLoading) return;
+    void trigger("rating")
     mutate({
       movieId,
       rating: data.rating,
@@ -42,7 +51,7 @@ export function PostReviewForm({ movieId }: { movieId: string }) {
     <div className="mx-auto mt-6 w-full max-w-xl px-4 py-4 shadow md:max-w-3xl lg:mx-0 lg:max-w-7xl">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <UserProfileImage image={userData.image}/>
+          <UserProfileImage image={userData.image} />
         </div>
         <div className="min-w-0 flex-1">
           <form onSubmit={handleSubmit(onSubmit)} className="relative">
@@ -67,13 +76,25 @@ export function PostReviewForm({ movieId }: { movieId: string }) {
             </div>
 
             <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
-              <div className="flex items-center space-x-5">
-                <div className="flex items-center">
+              <div className="flex items-center gap-4 space-x-5">
+                <div className="flex flex-col items-start justify-start md:flex-row md:items-center">
                   <Rating
                     onClick={(d) => setValue("rating", d)}
                     size={20}
                     SVGclassName="inline-block"
                   />
+                  <div className="flex flex-col gap-1">
+                    {errors.rating ? (
+                      <p className="text-xs text-red opacity-75 md:ml-2">
+                        {errors.rating?.message}
+                      </p>
+                    ) : null}
+                    {errors.comment ? (
+                      <p className="text-xs text-red opacity-75 md:ml-2">
+                        {errors.comment?.message}
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
               </div>
               <div className="flex-shrink-0">

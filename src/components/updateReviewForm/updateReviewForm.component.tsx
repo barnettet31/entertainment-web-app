@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { Rating } from "react-simple-star-rating";
 import { api } from "../../utils/api";
 import type { SubmitHandler } from "react-hook-form";
-import type { IFormInput } from "../postReviewForm/postReview.component";
+import { IFormInput, ValidationSchema, validationSchema } from "../postReviewForm/postReview.component";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface IReviewUpdateForm {
   rating: number;
@@ -25,8 +26,15 @@ export const UpdateReviewForm = ({
 }: IReviewUpdateForm) => {
   const [isOpen, setIsOpen] = useState(isUpdating);
   const utils = api.useContext()
-  const { register, handleSubmit, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    trigger,
+    formState: { errors },
+  } = useForm({
     defaultValues: { rating: rating, comment: comment },
+    resolver: zodResolver(validationSchema),
   });
   const { mutate: postUpdate, isLoading } =
     api.reviews.updateReview.useMutation({
@@ -44,8 +52,9 @@ export const UpdateReviewForm = ({
   const handleSetIsOpen = () => {
     setUpdating(false);
   };
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     if (isLoading) return;
+    void trigger("rating");
     postUpdate({
       id,
       rating: data.rating,
@@ -64,7 +73,7 @@ export const UpdateReviewForm = ({
 
       {/* Full-screen container to center the panel */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto rounded-lg bg-semi-dark-blue px-4 py-5 sm:p-6 md:w-80 lg:w-96">
+        <Dialog.Panel className="mx-auto w-11/12 rounded-lg bg-semi-dark-blue px-4 py-5 sm:p-6 md:w-3/4 lg:max-w-xl">
           <Dialog.Title className="text-lg font-medium leading-6 text-white">
             Edit your review
           </Dialog.Title>
@@ -101,6 +110,18 @@ export const UpdateReviewForm = ({
                     initialValue={rating}
                     SVGclassName="inline-block"
                   />
+                  <div className="flex flex-col gap-1">
+                    {errors.rating ? (
+                      <p className="text-xs text-red opacity-75 md:ml-2">
+                        {errors.rating?.message}
+                      </p>
+                    ) : null}
+                    {errors.comment ? (
+                      <p className="text-[8px] md:text-xs text-red opacity-75 md:ml-2">
+                        {errors.comment?.message}
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
               </div>
               <div className="flex-shrink-0">
@@ -111,7 +132,7 @@ export const UpdateReviewForm = ({
                   {isLoading ? (
                     <div className="h-4 w-4 animate-spin rounded-full border border-r-0 border-white" />
                   ) : (
-                    "Post Review"
+                    "Update Review"
                   )}
                 </button>
               </div>
