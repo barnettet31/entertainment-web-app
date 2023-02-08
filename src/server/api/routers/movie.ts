@@ -104,13 +104,7 @@ export const movieRouter = createTRPCRouter({
           id: input.id
         }
       });
-      const myReviews = await ctx.prisma.review.findMany({
-        where: {
-          movieId: input.id
-        }
-      });
-      const myAverage = myReviews.reduce((a, b) => a + b.rating, 0) / myReviews.length;
-      const myDataWithAverage = {...myData, averageRating: isNaN(myAverage) ? 0 : Math.floor(myAverage)};
+      const myDataWithAverage = {...myData};
       return myDataWithAverage;
     } catch (error)
     {
