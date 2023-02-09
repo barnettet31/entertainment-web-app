@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { Rating } from "react-simple-star-rating";
 import { api } from "../../utils/api";
 import type { SubmitHandler } from "react-hook-form";
-import { IFormInput, ValidationSchema, validationSchema } from "../postReviewForm/postReview.component";
+import { validationSchema } from "../postReviewForm/postReview.component";
+import type { ValidationSchema } from "../postReviewForm/postReview.component";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface IReviewUpdateForm {

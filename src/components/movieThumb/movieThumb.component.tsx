@@ -2,7 +2,6 @@ import { api } from "../../utils/api";
 import Image from "next/image";
 import { BookMarkedImage } from "../bookMarkElement/bookMarked.component";
 import Link from "next/link";
-import { LoadingMovieThumb } from "../loadingMovieThumb/loadingMovieThumb.component";
 export interface IMovieThumbProps {
   title: string;
   year: number;
